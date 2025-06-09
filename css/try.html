@@ -58,26 +58,43 @@
 
   <script>
     document.getElementById('try-form').addEventListener('submit', function (e) {
-      e.preventDefault();
+    e.preventDefault();
 
-      const input = document.getElementById('input-text').value.trim();
-      const from = document.getElementById('from').value;
-      const to = document.getElementById('to').value;
-      const output = document.getElementById('translation-output');
+    const input = document.getElementById('input-text').value.trim();
+    const from = document.getElementById('from').value;
+    const to = document.getElementById('to').value;
+    const output = document.getElementById('translation-output');
 
-      if (!input) {
-        output.innerHTML = "<p style='color:red;'>Veuillez entrer un texte à traduire.</p>";
-        return;
-      }
+    if (!input) {
+      output.innerHTML = "<p style='color:red;'>Veuillez entrer un texte à traduire.</p>";
+      return;
+    }
 
-      // Simulation simple de traduction (inversion du texte)
-      const simulated = input.split('').reverse().join('');
+    output.innerHTML = "⏳ Traduction en cours...";
+
+    fetch("https://libretranslate.de/translate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        q: input,
+        source: from,
+        target: to,
+        format: "text"
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
       output.innerHTML = `
-        <h4>Résultat simulé (${from.toUpperCase()} → ${to.toUpperCase()}) :</h4>
-        <p style="background:#e0f7fa; padding:1rem; border-radius:5px;">${simulated}</p>
-        <p><a href="services.html" class="btn">Réservez une vraie traduction</a></p>
+        <h4>Traduction (${from.toUpperCase()} → ${to.toUpperCase()}) :</h4>
+        <p style="background:#e0f7fa; padding:1rem; border-radius:5px;">${data.translatedText}</p>
+        <p><a href="services.html" class="btn">Réservez une vraie session</a></p>
       `;
+    })
+    .catch(err => {
+      output.innerHTML = "<p style='color:red;'>Erreur lors de la traduction. Veuillez réessayer.</p>";
+      console.error(err);
     });
+  });
   </script>
 </body>
 </html>
