@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Réserver - TradAlgeria</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <div class="logo">TradAlgeria</div>
+      <ul class="nav-links">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="about.html">À propos</a></li>
+        <li><a href="services.html" class="active">Réserver</a></li>
+        <li><a href="translators.html">Traducteurs</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="features">
+      <h1>Réserver une séance</h1>
+      <p>Choisissez une date et une heure, puis sélectionnez un domaine.</p>
+
+      <form id="booking-form">
+        <label for="date">Date :</label>
+        <input type="date" id="date" required>
+
+        <label for="time">Heure :</label>
+        <input type="time" id="time" required>
+
+        <label for="specialty">Domaine :</label>
+        <select id="specialty">
+          <option value="juridique">Juridique</option>
+          <option value="médical">Médical</option>
+          <option value="administratif">Administratif</option>
+        </select>
+
+        <button type="submit" class="btn">Réserver</button>
+      </form>
+
+      <p id="confirmation-message"></p>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 TradAlgeria. Tous droits réservés.</p>
+  </footer>
+
+  <script>
+    document.getElementById('booking-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const date = document.getElementById('date').value;
+      const time = document.getElementById('time').value;
+      const specialty = document.getElementById('specialty').value;
+      const message = `Réservation confirmée pour le domaine ${specialty} le ${date} à ${time}.`;
+      document.getElementById('confirmation-message').textContent = message;
+    });
+  </script>
+</body>
+</html>
